@@ -39,7 +39,7 @@ end
 % Get the git things
 import org.eclipse.jgit.api.Git
 if isempty(p.Results.RepoDir);
-    dir = fullfile(pwd,'.git');
+    dir = fullfile(pwd,'/.git');
 elseif isempty(strfind(p.Results.RepoDir,'.git'))
     warning('RepoDir does not contain ''.git''')
     dir = p.Results.RepoDir;
@@ -54,7 +54,7 @@ try
     file = java.io.File(fullfile(dir));
     git = Git.open(file);
 catch
-    error('Could not find git repo. Consider using ''RepoDir'' argument');
+    error('Could not find git repo: %s.\nConsider using ''RepoDir'' argument', char(file.toString));
 end
 repo = git.getRepository();
 commit = cell(repo.getRef('HEAD').getObjectId.name);
